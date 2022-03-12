@@ -9,6 +9,7 @@ Running Development:
 
 1. Remove folder ios/Pods
 2. cd ios && pod install && cd ..
+   react-native run-ios --simulator="iPhone 8 Plus"
 
 # ANDROID Requirment =>
 
