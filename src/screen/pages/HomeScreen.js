@@ -1,22 +1,34 @@
-import {Center, Heading, NativeBaseProvider, VStack} from 'native-base';
+import {Center, Divider, Text, VStack} from 'native-base';
 import React from 'react';
-import NativeBaseIcon from '../../components/NativeBaseIcon';
 
-// Color Switch Component
-const HomeScreen = () => {
-  return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{bg: 'blueGray.900'}}
-        _light={{bg: 'blueGray.50'}}
-        px={4}
-        flex={1}>
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to Arduino Controller</Heading>
-        </VStack>
-      </Center>
-    </NativeBaseProvider>
-  );
+const config = {
+  dependencies: {
+    'linear-gradient': require('react-native-linear-gradient').default,
+  },
 };
-export default HomeScreen;
+
+export default function HomeScreen() {
+  return (
+    <VStack space={2} alignItems="center" paddingTop={10} paddingBottom={10}>
+      <Center
+        onTouchStart={() => console.log('tap')}
+        rounded="md"
+        shadow={3}
+        w="80"
+        h="20"
+        bg={{
+          linearGradient: {
+            colors: ['lightBlue.300', 'violet.800'],
+            start: [0, 0],
+            end: [1, 0],
+          },
+        }}>
+        <Text>Bluetooth Connection</Text>
+      </Center>
+      <Divider />
+      <Center w="80" h="20" bg="indigo.300" rounded="md" shadow={3}>
+        <Text>Wireless Connection</Text>
+      </Center>
+    </VStack>
+  );
+}

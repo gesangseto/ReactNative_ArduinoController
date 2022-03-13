@@ -10,13 +10,19 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import {NativeBaseProvider} from 'native-base';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {navigationRef} from './helper';
 import Router from './router';
 
+const config = {
+  dependencies: {
+    'linear-gradient': require('react-native-linear-gradient').default,
+  },
+};
+
 const App = () => {
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider config={config}>
       <NavigationContainer ref={navigationRef}>
         <Router />
       </NavigationContainer>
