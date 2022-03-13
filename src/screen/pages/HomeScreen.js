@@ -1,5 +1,17 @@
-import {Center, Divider, Text, VStack} from 'native-base';
-import React from 'react';
+import {
+  Center,
+  Divider,
+  Text,
+  VStack,
+  Image,
+  Box,
+  ScrollView,
+  Heading,
+  SwipeListView,
+  useTheme,
+} from 'native-base';
+import React, {useState} from 'react';
+import {arduino_logo} from '../../assets';
 
 const config = {
   dependencies: {
@@ -8,27 +20,98 @@ const config = {
 };
 
 export default function HomeScreen() {
+  const [bluetoothActive, setBluetoothActive] = useState(false);
+  const {colors} = useTheme();
+
+  const loadHistory = (item, index) => {
+    let warna = 'coolGray.200';
+    if (index % 2 == 0) {
+      warna = 'coolGray.500';
+    }
+    return (
+      <Box key={index} bg={warna} h={30} borderRadius={5} mar={5}>
+        <Text py={1} px={5}>
+          WEW
+        </Text>
+      </Box>
+    );
+  };
   return (
-    <VStack space={2} alignItems="center" paddingTop={10} paddingBottom={10}>
+    <Box>
       <Center
-        onTouchStart={() => console.log('tap')}
-        rounded="md"
-        shadow={3}
-        w="80"
-        h="20"
+        marginX={1}
         bg={{
           linearGradient: {
-            colors: ['lightBlue.300', 'violet.800'],
+            colors: ['warmGray.50', 'coolGray.500'],
             start: [0, 0],
             end: [1, 0],
           },
-        }}>
-        <Text>Bluetooth Connection</Text>
+        }}
+        borderBottomRadius={10}>
+        <Image
+          size={200}
+          resizeMode={'contain'}
+          borderBottomRadius={10}
+          source={arduino_logo}
+          alt="Arduino"
+        />
       </Center>
-      <Divider />
-      <Center w="80" h="20" bg="indigo.300" rounded="md" shadow={3}>
-        <Text>Wireless Connection</Text>
-      </Center>
-    </VStack>
+
+      <VStack space={2} alignItems="center" paddingTop={10}>
+        <Text bold paddingLeft={5} alignSelf="flex-start">
+          Bluetooth Connection
+        </Text>
+        <Divider thickness="3" />
+        {bluetoothActive ? (
+          <Center
+            onTouchStart={() => setBluetoothActive(false)}
+            rounded="md"
+            shadow={3}
+            w="80"
+            h="20"
+            bg={{
+              linearGradient: {
+                colors: ['tertiary.100', 'tertiary.800'],
+                start: [0, 0],
+                end: [1, 0],
+              },
+            }}>
+            <Text>Connected : 16g7678dhf9</Text>
+          </Center>
+        ) : (
+          <Center
+            onTouchStart={() => setBluetoothActive(true)}
+            rounded="md"
+            shadow={3}
+            w="80"
+            h="20"
+            bg={{
+              linearGradient: {
+                colors: ['secondary.100', 'secondary.800'],
+                start: [0, 0],
+                end: [1, 0],
+              },
+            }}>
+            <Text>Not Connected</Text>
+          </Center>
+        )}
+      </VStack>
+
+      <VStack space={2} alignItems="center" paddingTop={10}>
+        <Text bold paddingLeft={5} alignSelf="flex-start">
+          History Command
+        </Text>
+        <Divider thickness="3" />
+        <Center>
+          <ScrollView shadow={3} w="80" h="20">
+            <VStack flex="1">
+              {Array(100)
+                .fill()
+                .map((item, index) => loadHistory(item, index))}
+            </VStack>
+          </ScrollView>
+        </Center>
+      </VStack>
+    </Box>
   );
 }

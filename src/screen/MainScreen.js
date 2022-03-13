@@ -108,11 +108,8 @@ export default function MainScreen() {
         }}
         drawerContent={props => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Outbox" component={Component} />
-        <Drawer.Screen name="Favorites" component={Component} />
-        <Drawer.Screen name="Archive" component={Component} />
-        <Drawer.Screen name="Trash" component={Component} />
-        <Drawer.Screen name="Spam" component={Component} />
+        <Drawer.Screen name="Command" component={Component} />
+        <Drawer.Screen name="Controller" component={Component} />
       </Drawer.Navigator>
     </Box>
   );
