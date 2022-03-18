@@ -1,15 +1,8 @@
-import {Image} from 'native-base';
-import {default as React, useEffect, useRef, useState} from 'react';
-import {
-  Animated,
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Center, Image} from 'native-base';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Dimensions, StyleSheet, Text, View} from 'react-native';
 import {TabBar, TabView} from 'react-native-tab-view';
-import {arduino_logo} from '../../assets';
+import {arduino_logo} from '../../../assets';
 
 const TabBarHeight = 48;
 const HeaderHeight = 300;
@@ -56,11 +49,11 @@ const TabScene = ({
   );
 };
 
-const HomeScreen = () => {
+const CollapsibleTabView = () => {
   const [tabIndex, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 'tab1', title: 'Bluetooth'},
-    {key: 'tab2', title: 'History'},
+    {key: 'tab1', title: 'Tab1'},
+    {key: 'tab2', title: 'Tab2'},
   ]);
   const [tab1Data] = useState(Array(40).fill(0));
   const [tab2Data] = useState(Array(30).fill(0));
@@ -271,12 +264,10 @@ const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
-        {renderTabView()}
-        {renderHeader()}
-      </View>
-    </SafeAreaView>
+    <View style={{flex: 1}}>
+      {renderTabView()}
+      {renderHeader()}
+    </View>
   );
 };
 
@@ -295,4 +286,4 @@ const styles = StyleSheet.create({
   indicator: {backgroundColor: '#222'},
 });
 
-export default HomeScreen;
+export default CollapsibleTabView;
