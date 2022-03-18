@@ -12,7 +12,7 @@ import {TabBar, TabView} from 'react-native-tab-view';
 import {arduino_logo} from '../../assets';
 
 const TabBarHeight = 48;
-const HeaderHeight = 300;
+const HeaderHeight = 150;
 const tab1ItemSize = (Dimensions.get('window').width - 30) / 2;
 const tab2ItemSize = (Dimensions.get('window').width - 40) / 3;
 

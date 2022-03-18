@@ -12,6 +12,7 @@ import {
   VStack,
 } from 'native-base';
 import HomeScreen from './pages/HomeScreen';
+import ControllerScreen from './pages/ControllerScreen';
 import React from 'react';
 const Drawer = createDrawerNavigator();
 
@@ -109,7 +110,7 @@ export default function MainScreen() {
         drawerContent={props => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Command" component={Component} />
-        <Drawer.Screen name="Controller" component={Component} />
+        <Drawer.Screen name="Controller" component={ControllerScreen} />
       </Drawer.Navigator>
     </Box>
   );
