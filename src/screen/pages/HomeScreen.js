@@ -290,8 +290,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
   },
-  label: {fontSize: 16, color: '#222'},
-  tab: {elevation: 0, shadowOpacity: 0, backgroundColor: '#FFCC80'},
+  label: {fontSize: 16, color: 'black'},
+  tab: {elevation: 0, shadowOpacity: 0, backgroundColor: '#00d6b6'},
   indicator: {backgroundColor: '#222'},
 });
 
