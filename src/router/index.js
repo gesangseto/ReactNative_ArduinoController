@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from '../screen/SplashScreen';
 import Login from '../screen/Login';
 import MainScreen from '../screen/MainScreen';
+import ControllerLayout from '../screen/controller/ControllerLayout';
 
 const Stack = createStackNavigator();
 const Router = () => {
@@ -22,6 +23,11 @@ const Router = () => {
       <Stack.Screen
         name="MainScreen"
         component={MainScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ControllerLayout"
+        component={ControllerLayout}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

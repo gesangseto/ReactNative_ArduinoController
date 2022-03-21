@@ -12,3 +12,6 @@ export function navigate(name, params) {
 export function navigateReplace(name, param) {
   navigationRef.current.dispatch(StackActions.replace(name, param));
 }
+export function goBack(name, param) {
+  navigationRef.current.goBack(name, param);
+}
