@@ -2,25 +2,40 @@ import {Box, Button, Center, HStack, Text} from 'native-base';
 import React, {useState} from 'react';
 import Draggable from 'react-native-draggable';
 import * as RootNavigation from '../../helper';
+import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ControllerLayout() {
   const [hiddenAction, setHiddenAction] = useState(false);
   const [items, setItems] = useState([
     {
-      x: 75,
-      y: 100,
-      name: 'Is Black',
-      color: 'black',
+      x: 209.3333282470703,
+      y: 399.3333282470703,
+      text: null,
+      icon_name: 'arrow-down-box',
+      icon_color: 'black',
     },
     {
-      x: 200,
-      y: 300,
-      name: 'Is Red',
-      color: 'red',
+      x: 41.33332824707031,
+      y: 32.99999237060547,
+      text: null,
+      icon_name: 'arrow-left-box',
+      icon_color: 'red',
     },
   ]);
   const handleDragItem = ({item = Object, index = Number}) => {
-    console.log('Drage', item.nativeEvent);
+    console.log(item.nativeEvent);
+    let pageX = item.nativeEvent.pageX;
+    let pageY = item.nativeEvent.pageX;
+    let locationX = item.nativeEvent.locationX;
+    let locationY = item.nativeEvent.locationY;
+    let btnItem = items;
+    btnItem[index].x = locationX;
+    btnItem[index].y = locationY;
+    setItems([...btnItem]);
+  };
+  const eventDrag = (e, data) => {
+    console.log(data);
+    console.log(e.nativeEvent);
   };
   const renderShape = ({item = Object, index = Number}) => {
     return (
@@ -28,11 +43,13 @@ export default function ControllerLayout() {
         key={index}
         x={item.x}
         y={item.y}
-        renderColor={`${item.color}`}
-        renderText={item.name}
+        moveX={() => console.log('Test')}
         onShortPressRelease={() => console.log('touched!!', index)}
         onDragRelease={val => handleDragItem({item: val, index: index})}
-      />
+        // onDragRelease={eventDrag}
+        reverse={false}>
+        <MatComIcon name={item.icon_name} size={75} color={item.icon_color} />
+      </Draggable>
     );
   };
   const renderFooter = () => {
