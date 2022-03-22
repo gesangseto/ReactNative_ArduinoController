@@ -24,8 +24,6 @@ export default function ControllerLayout() {
   ]);
   const handleDragItem = ({item = Object, index = Number}) => {
     console.log(item.nativeEvent);
-    let pageX = item.nativeEvent.pageX;
-    let pageY = item.nativeEvent.pageX;
     let locationX = item.nativeEvent.locationX;
     let locationY = item.nativeEvent.locationY;
     let btnItem = items;
