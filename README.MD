@@ -16,3 +16,17 @@ Running Development:
 node ?
 npm ?
 nvm ?
+
+HOW TO BUILD RELEASE AND INSTALL??
+
+1. Delete all file on android/app/build/\*
+2. Delete index.android.bundle file on android/app/src/main/assets/index.android.bundle
+3. cd android/ && ./gradlew clean
+4. cd .. && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+5. cd android/ && ./gradlew assembleRelease OR cd android/ && ./gradlew app:assembleRelease
+6. If Error: Duplicate resources
+   Delete All Files On android/app/src/main/res/drawable-_ && android/app/src/main/res/raw/_
+   then try step 5 again
+7. adb install -r android/app/build/outputs/apk/release/app-release.apk
+
+search # Reduce Apk Size for default build APK
