@@ -1,13 +1,15 @@
 import {Box, Button, Center, HStack, Text, View} from 'native-base';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Draggable from 'react-native-draggable';
 import * as RootNavigation from '../../helper';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DraggableItem} from '../../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import FormControllerLayout from './FormControllerLayout';
 
 export default function ControllerLayout() {
   const [hiddenAction, setHiddenAction] = useState(false);
+  const [showFormController, setShowFormController] = useState(false);
   const [items, setItems] = useState([
     {
       x: 15.3333282470703,
@@ -33,10 +35,14 @@ export default function ControllerLayout() {
     setItems([...temp_item]);
   };
 
-  const eventDrag = (e, data) => {
-    console.log(data);
-    console.log(e.nativeEvent);
+  const handleShortPress = ({item = Object, index = Number}) => {
+    console.log('Short Press item => ', item);
   };
+  const handleLongPress = ({item = Object, index = Number}) => {
+    setShowFormController(true);
+  };
+
+  useEffect(() => {}, []);
 
   const renderShape = ({item = Object, index = Number}) => {
     return (
@@ -49,8 +55,8 @@ export default function ControllerLayout() {
         RenderItem={() => (
           <TouchableOpacity
             style={{alignItems: 'center'}}
-            onPress={() => console.log('pres')}
-            onLongPress={() => console.log('lpres')}>
+            onPress={() => handleShortPress({item: item, index: index})}
+            onLongPress={() => handleLongPress({item: item, index: index})}>
             <MatComIcon
               name={item.icon_name}
               size={75}
@@ -74,7 +80,10 @@ export default function ControllerLayout() {
             </Text>
           </Center>
         </Button>
-        <Button colorScheme="info" w={20} onPress={() => console.log('Save')}>
+        <Button
+          colorScheme="info"
+          w={20}
+          onPress={() => setShowFormController(true)}>
           <Center>
             <Text color="white" fontSize="12">
               Add
@@ -104,6 +113,7 @@ export default function ControllerLayout() {
       </HStack>
     );
   };
+
   return (
     <Box flex={1} safeAreaTop width="100%" alignSelf="center">
       <Center flex={1} bg="muted.200">
@@ -113,6 +123,11 @@ export default function ControllerLayout() {
           })}
       </Center>
       {!hiddenAction && renderFooter()}
+
+      <FormControllerLayout
+        isOpen={showFormController}
+        onClose={() => setShowFormController(false)}
+      />
     </Box>
   );
 }
