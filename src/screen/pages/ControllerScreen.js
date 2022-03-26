@@ -4,6 +4,7 @@ import {StyleSheet, Text} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 import * as RootNavigation from '../../helper';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {getDBConnection, getController} from '../../models';
 
 const boxAdd = {
   name: 'ADD',
@@ -35,6 +36,12 @@ export default function Example() {
   ]);
 
   useEffect(() => {
+    (async function () {
+      const db = await getDBConnection();
+      let data = await getController(db);
+      console.log(data);
+    })();
+
     setItems([...items, boxAdd]);
   }, []);
 

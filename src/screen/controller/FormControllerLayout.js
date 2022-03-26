@@ -9,7 +9,7 @@ const FormControllerLayout = props => {
     y: 0,
     text: '',
     icon_name: '',
-    icon_size: 10,
+    icon_size: '10',
     icon_color: '',
     command: '',
   });

@@ -13,6 +13,7 @@ import {NativeBaseProvider} from 'native-base';
 import React from 'react';
 import {navigationRef} from './helper';
 import Router from './router';
+import {SSRProvider} from '@react-aria/ssr';
 
 const config = {
   dependencies: {
@@ -22,11 +23,13 @@ const config = {
 
 const App = () => {
   return (
-    <NativeBaseProvider config={config}>
-      <NavigationContainer ref={navigationRef}>
-        <Router />
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <SSRProvider>
+      <NativeBaseProvider config={config}>
+        <NavigationContainer ref={navigationRef}>
+          <Router />
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </SSRProvider>
   );
 };
 export default App;
