@@ -31,3 +31,21 @@ export const generateQueryInsert = ({table, structure, values}) => {
   console.log(query);
   return query;
 };
+
+export const generateQueryUpdate = ({table, structure, values}) => {
+  let val = '';
+  let query = `UPDATE  ${table}`;
+  for (const key_v in values) {
+    for (const key_s in structure) {
+      if (key_v === key_s) {
+        if (values[key_v]) {
+          val += ` ${key_v} = '${values[key_v]}',`;
+        }
+      }
+    }
+  }
+  val = ` SET ${val.substring(0, val.length - 1)} WHERE id='${values.id}'`;
+  query += ` ${val} `;
+  console.log(query);
+  return query;
+};

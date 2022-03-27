@@ -4,7 +4,12 @@ import {StyleSheet, Text} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 import * as RootNavigation from '../../helper';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getDBConnection, getController, insertController} from '../../models';
+import {
+  getDBConnection,
+  getController,
+  insertController,
+  updateController,
+} from '../../models';
 import FormControllerProfile from '../controller/FormControllerProfile';
 
 const initial_data = {
@@ -35,9 +40,13 @@ export default function Example() {
 
   const handleSubmit = async val => {
     const db = await getDBConnection();
-    await insertController(db, val);
+    if (val.id) {
+      await updateController(db, val);
+    } else {
+      await insertController(db, val);
+      RootNavigation.navigate('ControllerLayout', val);
+    }
     await getDataController();
-    RootNavigation.navigate('ControllerLayout', val);
     return;
   };
 
@@ -48,9 +57,10 @@ export default function Example() {
       setModalForm(true);
     }
   };
+
   const handleLongPressBoxItem = item => {
     if (item.code != 'add') {
-      setModalData(initial_data);
+      setModalData(item);
       setModalForm(true);
     }
   };
@@ -79,6 +89,7 @@ export default function Example() {
       <FormControllerProfile
         isOpen={modalForm}
         defaultData={modalData}
+        submitTitle={modalData.id ? 'Save' : 'Create'}
         onClose={() => setModalForm(false)}
         onSubmit={val => handleSubmit(val)}
       />

@@ -5,7 +5,7 @@ import {InputText, InputListIcon} from '../../components';
 const initial_err = {controller_name: null};
 
 const FormControllerProfile = props => {
-  const {isOpen, onClose, onSubmit, defaultData} = props;
+  const {isOpen, onClose, onSubmit, defaultData, submitTitle} = props;
   const [data, setData] = useState({});
   const [errData, setErrData] = useState(initial_err);
   const [showModal, setShowModal] = useState(false);
@@ -106,7 +106,7 @@ const FormControllerProfile = props => {
                 Cancel
               </Button>
               <Button colorScheme="success" onPress={() => handleSubmit()}>
-                Create
+                {submitTitle ?? 'Submit'}
               </Button>
             </Button.Group>
           </Modal.Footer>

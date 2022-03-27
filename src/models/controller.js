@@ -1,5 +1,9 @@
 import {enablePromise, openDatabase} from 'react-native-sqlite-storage';
-import {generateQueryCreateTable, generateQueryInsert} from '../helper';
+import {
+  generateQueryCreateTable,
+  generateQueryInsert,
+  generateQueryUpdate,
+} from '../helper';
 
 const tableName = 'controller';
 const structure = {
@@ -47,6 +51,16 @@ export const insertController = async (db, data) => {
     values: data,
   });
 
+  const results = await db.executeSql(query);
+  return results;
+};
+
+export const updateController = async (db, data) => {
+  let query = generateQueryUpdate({
+    table: tableName,
+    structure: structure,
+    values: data,
+  });
   const results = await db.executeSql(query);
   return results;
 };
