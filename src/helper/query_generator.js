@@ -1,11 +1,7 @@
-export const generateQueryCreateTable = ({table, column, structure}) => {
+export const generateQueryCreateTable = ({table, structure}) => {
   let values = '';
-  let idx = 0;
-  for (const it of column) {
-    let type = Object.keys(structure)[idx];
-    let len = structure[Object.keys(structure)[idx]];
-    values += ` ${it} ${type}(${len}),`;
-    idx += 1;
+  for (const key in structure) {
+    values += ` ${key} ${structure[key]},`;
   }
   values = values.substring(0, values.length - 1);
   const query = `CREATE TABLE IF NOT EXISTS ${table} (${values});`;
@@ -13,17 +9,25 @@ export const generateQueryCreateTable = ({table, column, structure}) => {
   return query;
 };
 
-export const generateQueryInsert = ({table, column, values}) => {
-  let col = '';
-  for (const it of column) {
-    col += ` ${it},`;
+export const generateQueryInsert = ({table, structure, values}) => {
+  let column = '';
+  let datas = '';
+  let query = `INSERT INTO ${table} `;
+  if (typeof values === 'object' && values !== null) {
+    for (const key_v in values) {
+      for (const key_s in structure) {
+        if (key_v === key_s) {
+          if (values[key_v]) {
+            column += ` ${key_v},`;
+            datas += ` '${values[key_v]}',`;
+          }
+        }
+      }
+    }
+    column = ` (${column.substring(0, column.length - 1)}) `;
+    datas = ` (${datas.substring(0, datas.length - 1)}) `;
+    query += ` ${column} VALUES ${datas} `;
   }
-  col = col.substring(0, col.length - 1);
-  let query = `INSERT OR REPLACE INTO ${table} 
-        (${col}) 
-        values 
-        ('', '1'),
-        ('','');`;
-
   console.log(query);
+  return query;
 };

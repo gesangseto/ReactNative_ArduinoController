@@ -4,75 +4,85 @@ import {StyleSheet, Text} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 import * as RootNavigation from '../../helper';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getDBConnection, getController} from '../../models';
+import {getDBConnection, getController, insertController} from '../../models';
+import FormControllerProfile from '../controller/FormControllerProfile';
 
-const boxAdd = {
-  name: 'ADD',
-  code: 'add',
-  desc: 'Add more controller',
-  colorScheme: 'tertiary',
-  icon_name: 'plus-box-outline',
+const initial_data = {
+  id: '',
+  controller_name: '',
+  controller_desc: '',
+  code: '',
+  background_color: '',
+  icon_name: '',
   icon_color: 'black',
 };
 
 export default function Example() {
-  const [items, setItems] = React.useState([
-    {
-      name: 'CAR',
-      code: null,
-      desc: 'Controller For Car',
-      colorScheme: 'lime',
-      icon_name: 'plus-box-outline',
-      icon_color: 'black',
-    },
-    {
-      name: 'SILVER',
-      code: null,
-      desc: 'Controller For Home',
-      colorScheme: 'amber',
-      icon_name: 'plus-box-outline',
-      icon_color: 'black',
-    },
-  ]);
+  const [items, setItems] = React.useState([]);
+  const [modalForm, setModalForm] = React.useState(false);
+  const [modalData, setModalData] = React.useState({});
 
   useEffect(() => {
-    (async function () {
-      const db = await getDBConnection();
-      let data = await getController(db);
-      console.log(data);
-    })();
-
-    setItems([...items, boxAdd]);
+    getDataController();
   }, []);
+
+  const getDataController = async () => {
+    const db = await getDBConnection();
+    let datas = await getController(db);
+    console.log(datas);
+    setItems([...datas]);
+  };
+
+  const handleSubmit = async val => {
+    const db = await getDBConnection();
+    await insertController(db, val);
+    await getDataController();
+    RootNavigation.navigate('ControllerLayout', val);
+    return;
+  };
 
   const handleClickBoxItem = item => {
     console.log(item);
     if (item.code === 'add') {
-      RootNavigation.navigate('ControllerLayout', item);
-      console.log(item);
+      setModalData(initial_data);
+      setModalForm(true);
     }
   };
-
+  const handleLongPressBoxItem = item => {
+    if (item.code != 'add') {
+      setModalData(initial_data);
+      setModalForm(true);
+    }
+  };
   const renderBoxItem = item => {
     return (
       <Button
         onPress={() => handleClickBoxItem(item)}
+        onLongPress={() => handleLongPressBoxItem(item)}
         style={[styles.itemContainer]}
-        colorScheme={item.colorScheme}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemDesc}>{item.desc}</Text>
+        colorScheme={item.background_color}>
+        <Text style={styles.itemName}>{item.controller_name}</Text>
+        <Text style={styles.itemDesc}>{item.controller_desc}</Text>
         <MatComIcon name={item.icon_name} size={75} color={item.icon_color} />
       </Button>
     );
   };
   return (
-    <FlatGrid
-      itemDimension={130}
-      data={items}
-      style={styles.gridView}
-      spacing={10}
-      renderItem={({item}) => renderBoxItem(item)}
-    />
+    <>
+      <FlatGrid
+        itemDimension={130}
+        data={items}
+        style={styles.gridView}
+        spacing={10}
+        renderItem={({item}) => renderBoxItem(item)}
+      />
+      <FormControllerProfile
+        isOpen={modalForm}
+        defaultData={modalData}
+        onClose={() => setModalForm(false)}
+        onSubmit={val => handleSubmit(val)}
+      />
+    </>
   );
 }
 

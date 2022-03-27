@@ -11,14 +11,41 @@ import {
 } from 'native-base';
 import React, {useEffect} from 'react';
 import NativeBaseIcon from '../components/NativeBaseIcon';
+import {
+  getDBConnection,
+  createTableController,
+  insertController,
+  getController,
+} from '../models';
 
 // Color Switch Component
+
+const initial_data_controller = {
+  // id: '0',
+  controller_name: 'ADD',
+  controller_desc: 'Add more controller',
+  code: 'add',
+  background_color: 'tertiary',
+  icon_name: 'plus-box-outline',
+  icon_color: 'black',
+};
+
 const SplashScreen = () => {
   useEffect(() => {
-    setTimeout(() => {
-      RootNavigation.navigateReplace('MainScreen');
-    }, 500);
+    (async function () {
+      await initial_controller();
+      setTimeout(() => {
+        RootNavigation.navigateReplace('MainScreen');
+      }, 500);
+    })();
   }, []);
+
+  const initial_controller = async () => {
+    const db = await getDBConnection();
+    await createTableController(db);
+    let datas = await getController(db);
+    if (datas.length === 0) await insertController(db, initial_data_controller);
+  };
 
   return (
     <NativeBaseProvider>
