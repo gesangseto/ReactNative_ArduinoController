@@ -55,6 +55,8 @@ export default function Example() {
     if (item.code === 'add') {
       setModalData(initial_data);
       setModalForm(true);
+    } else {
+      RootNavigation.navigate('ControllerLayout', item);
     }
   };
 

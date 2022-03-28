@@ -2,26 +2,62 @@ import {Button, Modal, FormControl, Input} from 'native-base';
 import React, {useState, useEffect} from 'react';
 import {InputText} from '../../components';
 
+const initial_err = {type: null};
+
 const FormControllerLayout = props => {
-  const {isOpen, onClose} = props;
-  const [data, setData] = useState({
-    x: 0,
-    y: 0,
-    text: '',
-    icon_name: '',
-    icon_size: '10',
-    icon_color: '',
-    command: '',
-  });
+  const {isOpen, onClose, onSubmit, defaultData, submitTitle} = props;
+  const [errData, setErrData] = useState(initial_err);
+  const [data, setData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
 
   useEffect(() => {
-    console.log(data);
+    setData({...defaultData});
+  }, [defaultData]);
+
+  useEffect(() => {
+    if (isSubmit) {
+      handleValidation();
+    }
   }, [data]);
+
+  const handleValidation = () => {
+    let isError = false;
+    let err = initial_err;
+    for (var key of Object.keys(errData)) {
+      if (!data[key]) {
+        isError = true;
+        err[key] = true;
+      } else {
+        err[key] = null;
+      }
+    }
+    setErrData({...err});
+    if (isError) {
+      return false;
+    }
+    return true;
+  };
+  const handleSubmit = () => {
+    if (!isSubmit) {
+      setIsSubmit(true);
+    }
+    if (handleValidation()) {
+      handleClose();
+      if (onSubmit) {
+        let thisData = data;
+        thisData.x = 0;
+        thisData.y = 0;
+        onSubmit(data);
+        setData({});
+      }
+    }
+    return;
+  };
 
   const handleClose = () => {
     if (onClose) {
@@ -37,6 +73,13 @@ const FormControllerLayout = props => {
           <Modal.Header>Add new controller</Modal.Header>
           <Modal.Body>
             <InputText
+              required={true}
+              isInvalid={errData.type}
+              label={'Type'}
+              value={data.type}
+              onChangeText={val => setData({...data, type: val})}
+            />
+            <InputText
               label={'Icon Name'}
               value={data.icon_name}
               onChangeText={val => setData({...data, icon_name: val})}
@@ -47,7 +90,6 @@ const FormControllerLayout = props => {
               onChangeText={val => setData({...data, icon_color: val})}
             />
             <InputText
-              isInvalid={true}
               label={'Icon Size'}
               value={data.icon_size}
               onChangeText={val => setData({...data, icon_size: val})}
@@ -69,12 +111,8 @@ const FormControllerLayout = props => {
               <Button colorScheme="danger" onPress={() => handleClose()}>
                 Delete
               </Button>
-              <Button
-                colorScheme="success"
-                onPress={() => {
-                  setShowModal(false);
-                }}>
-                Save
+              <Button colorScheme="success" onPress={() => handleSubmit()}>
+                {submitTitle ?? 'Submit'}
               </Button>
             </Button.Group>
           </Modal.Footer>

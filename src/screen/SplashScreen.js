@@ -13,6 +13,7 @@ import React, {useEffect} from 'react';
 import NativeBaseIcon from '../components/NativeBaseIcon';
 import {
   getDBConnection,
+  createTableControllerLayout,
   createTableController,
   insertController,
   getController,
@@ -43,6 +44,7 @@ const SplashScreen = () => {
   const initial_controller = async () => {
     const db = await getDBConnection();
     await createTableController(db);
+    await createTableControllerLayout(db);
     let datas = await getController(db);
     if (datas.length === 0) await insertController(db, initial_data_controller);
   };

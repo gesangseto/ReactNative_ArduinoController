@@ -6,10 +6,14 @@ import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {DraggableItem} from '../../components';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import FormControllerLayout from './FormControllerLayout';
+import {structure_controller_layout} from '../../models';
 
-export default function ControllerLayout() {
+export default function ControllerLayout({route, navigation}) {
+  const controllerItem = route.params;
   const [hiddenAction, setHiddenAction] = useState(false);
   const [showFormController, setShowFormController] = useState(false);
+  const [structureItem, setStructureItem] = useState({});
+  const [selectedItem, setSelectedItem] = useState({});
   const [items, setItems] = useState([
     {
       x: 15.3333282470703,
@@ -17,13 +21,6 @@ export default function ControllerLayout() {
       text: 'null',
       icon_name: 'arrow-down-box',
       icon_color: 'black',
-    },
-    {
-      x: 0.33332824707031,
-      y: 32.99999237060547,
-      text: null,
-      icon_name: 'arrow-left-box',
-      icon_color: 'red',
     },
   ]);
   const handleDragItem = ({position = Object, index = Number}) => {
@@ -39,10 +36,25 @@ export default function ControllerLayout() {
     console.log('Short Press item => ', item);
   };
   const handleLongPress = ({item = Object, index = Number}) => {
+    setSelectedItem({...item});
     setShowFormController(true);
   };
+  const handleSubmit = item => {
+    if (!item.id) {
+      console.log(item);
+      setItems([...items, item]);
+    }
+  };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(items);
+  }, [items]);
+
+  useEffect(() => {
+    let strct = JSON.parse(JSON.stringify(structure_controller_layout));
+    Object.keys(strct).forEach(k => (strct[k] = ''));
+    setStructureItem(strct);
+  }, []);
 
   const renderShape = ({item = Object, index = Number}) => {
     return (
@@ -127,6 +139,8 @@ export default function ControllerLayout() {
       <FormControllerLayout
         isOpen={showFormController}
         onClose={() => setShowFormController(false)}
+        defaultData={selectedItem}
+        onSubmit={val => handleSubmit(val)}
       />
     </Box>
   );
