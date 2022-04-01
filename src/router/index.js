@@ -1,9 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from '../screen/SplashScreen';
-import Login from '../screen/Login';
 import MainScreen from '../screen/MainScreen';
-import ControllerLayout from '../screen/controller/ControllerLayout';
 
 const Stack = createStackNavigator();
 const Router = () => {
@@ -16,18 +14,8 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
         name="MainScreen"
         component={MainScreen}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ControllerLayout"
-        component={ControllerLayout}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

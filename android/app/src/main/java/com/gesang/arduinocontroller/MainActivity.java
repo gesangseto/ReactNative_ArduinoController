@@ -1,4 +1,4 @@
-package com.arduinocontroller;
+package com.gesang.arduinocontroller;
 
 import com.facebook.react.ReactActivity;
 

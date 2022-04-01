@@ -17,6 +17,13 @@ node ?
 npm ?
 nvm ?
 
+Rename Package Android
+
+1. npm install react-native-rename -g
+2. react-native-rename "MyApp" -b com.mycompany.myapp
+3. Change on android/app/src/main/res/values/string.xml <string name="app_name">MyApp</string>
+4. npm start --reset-cache
+
 HOW TO BUILD RELEASE AND INSTALL??
 
 1. Delete all file on android/app/build/\*

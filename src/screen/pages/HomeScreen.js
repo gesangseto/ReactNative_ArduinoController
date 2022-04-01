@@ -1,5 +1,4 @@
-import {Image} from 'native-base';
-import {default as React, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
   Dimensions,
@@ -7,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
 } from 'react-native';
 import {TabBar, TabView} from 'react-native-tab-view';
 import {arduino_logo} from '../../assets';
@@ -131,7 +131,7 @@ const HomeScreen = () => {
     return (
       <Animated.View style={[styles.header, {transform: [{translateY: y}]}]}>
         <Image
-          size={200}
+          style={{width: 200}}
           resizeMode={'contain'}
           source={arduino_logo}
           alt="Arduino"

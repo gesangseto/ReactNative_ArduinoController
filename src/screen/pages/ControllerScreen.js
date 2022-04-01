@@ -1,16 +1,22 @@
-import {Button} from 'native-base';
-import React, {useEffect} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  View,
+} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 import * as RootNavigation from '../../helper';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Modalize} from 'react-native-modalize';
 import {
   getDBConnection,
   getController,
   insertController,
   updateController,
 } from '../../models';
-import FormControllerProfile from '../controller/FormControllerProfile';
+// import FormControllerProfile from '../controller/FormControllerProfile';
 
 const initial_data = {
   id: '',
@@ -23,8 +29,8 @@ const initial_data = {
 };
 
 export default function Example() {
+  const modalizeRef = useRef(null);
   const [items, setItems] = React.useState([]);
-  const [modalForm, setModalForm] = React.useState(false);
   const [modalData, setModalData] = React.useState({});
 
   useEffect(() => {
@@ -54,7 +60,7 @@ export default function Example() {
     console.log(item);
     if (item.code === 'add') {
       setModalData(initial_data);
-      setModalForm(true);
+      modalizeRef.current?.open();
     } else {
       RootNavigation.navigate('ControllerLayout', item);
     }
@@ -63,20 +69,24 @@ export default function Example() {
   const handleLongPressBoxItem = item => {
     if (item.code != 'add') {
       setModalData(item);
-      setModalForm(true);
     }
   };
   const renderBoxItem = item => {
     return (
-      <Button
+      <TouchableOpacity
         onPress={() => handleClickBoxItem(item)}
         onLongPress={() => handleLongPressBoxItem(item)}
-        style={[styles.itemContainer]}
-        colorScheme={item.background_color}>
+        style={{
+          justifyContent: 'flex-start',
+          borderRadius: 5,
+          padding: 10,
+          height: 150,
+          backgroundColor: item.background_color,
+        }}>
         <Text style={styles.itemName}>{item.controller_name}</Text>
         <Text style={styles.itemDesc}>{item.controller_desc}</Text>
         <MatComIcon name={item.icon_name} size={75} color={item.icon_color} />
-      </Button>
+      </TouchableOpacity>
     );
   };
   return (
@@ -88,17 +98,32 @@ export default function Example() {
         spacing={10}
         renderItem={({item}) => renderBoxItem(item)}
       />
-      <FormControllerProfile
-        isOpen={modalForm}
-        defaultData={modalData}
-        submitTitle={modalData.id ? 'Save' : 'Create'}
-        onClose={() => setModalForm(false)}
-        onSubmit={val => handleSubmit(val)}
-      />
+      <Modalize ref={modalizeRef}>
+        <View style={{padding: 5}}>
+          <View>
+            <Text style={{fontWeight: 'bold'}}>Controller Name</Text>
+            <TextInput style={{backgroundColor: 'gray', borderRadius: 10}} />
+          </View>
+        </View>
+      </Modalize>
     </>
   );
 }
 
+const stylesContainer = props =>
+  StyleSheet.create({
+    gridView: {
+      marginTop: 10,
+      flex: 1,
+    },
+    itemContainer: {
+      justifyContent: 'flex-start',
+      borderRadius: 5,
+      padding: 10,
+      height: 150,
+      backgroundColor: 'red',
+    },
+  });
 const styles = StyleSheet.create({
   gridView: {
     marginTop: 10,
@@ -109,6 +134,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     height: 150,
+    backgroundColor: 'red',
+    borderColor: 'red',
   },
   itemName: {
     fontSize: 16,

@@ -1,4 +1,4 @@
-import {enablePromise, openDatabase} from 'react-native-sqlite-storage';
+import {enablePromise} from 'react-native-sqlite-storage';
 import {
   generateQueryCreateTable,
   generateQueryInsert,
