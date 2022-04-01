@@ -12,12 +12,16 @@
  import React from 'react';
  import {navigationRef} from './helper';
  import Router from './router';
+
+import { Host } from 'react-native-portalize';
  
  
  const App = () => {
    return (
          <NavigationContainer ref={navigationRef}>
-           <Router />
+           <Host>
+            <Router />
+           </Host>
          </NavigationContainer>
    );
  };

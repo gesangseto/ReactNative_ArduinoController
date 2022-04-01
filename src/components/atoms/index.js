@@ -1,3 +1,5 @@
-import TextInput from './TextInput';
+import InputText from './InputText';
+import Button from './Button';
+import PickerColor from './PickerColor';
 
-export {TextInput};
+export {InputText, Button, PickerColor};

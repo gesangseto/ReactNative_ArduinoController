@@ -1,18 +1,15 @@
-import React, {useEffect, useRef} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  View,
-} from 'react-native';
-import {FlatGrid} from 'react-native-super-grid';
-import * as RootNavigation from '../../helper';
-import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, {useEffect, useRef, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Modalize} from 'react-native-modalize';
+import {Portal} from 'react-native-portalize';
+import {FlatGrid} from 'react-native-super-grid';
+import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {FormControllerProfile} from '../../components';
+import {colors} from '../../constants';
+import * as RootNavigation from '../../helper';
 import {
-  getDBConnection,
   getController,
+  getDBConnection,
   insertController,
   updateController,
 } from '../../models';
@@ -30,8 +27,8 @@ const initial_data = {
 
 export default function Example() {
   const modalizeRef = useRef(null);
-  const [items, setItems] = React.useState([]);
-  const [modalData, setModalData] = React.useState({});
+  const [items, setItems] = useState([]);
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     getDataController();
@@ -45,12 +42,13 @@ export default function Example() {
   };
 
   const handleSubmit = async val => {
+    modalizeRef.current?.close();
     const db = await getDBConnection();
     if (val.id) {
       await updateController(db, val);
     } else {
       await insertController(db, val);
-      RootNavigation.navigate('ControllerLayout', val);
+      // RootNavigation.navigate('ControllerLayout', val);
     }
     await getDataController();
     return;
@@ -59,18 +57,20 @@ export default function Example() {
   const handleClickBoxItem = item => {
     console.log(item);
     if (item.code === 'add') {
-      setModalData(initial_data);
+      setFormData(initial_data);
       modalizeRef.current?.open();
     } else {
-      RootNavigation.navigate('ControllerLayout', item);
+      // RootNavigation.navigate('ControllerLayout', item);
     }
   };
 
   const handleLongPressBoxItem = item => {
     if (item.code != 'add') {
-      setModalData(item);
+      setFormData(item);
+      modalizeRef.current?.open();
     }
   };
+
   const renderBoxItem = item => {
     return (
       <TouchableOpacity
@@ -81,7 +81,7 @@ export default function Example() {
           borderRadius: 5,
           padding: 10,
           height: 150,
-          backgroundColor: item.background_color,
+          backgroundColor: item.background_color ?? colors.darkGrey,
         }}>
         <Text style={styles.itemName}>{item.controller_name}</Text>
         <Text style={styles.itemDesc}>{item.controller_desc}</Text>
@@ -98,14 +98,16 @@ export default function Example() {
         spacing={10}
         renderItem={({item}) => renderBoxItem(item)}
       />
-      <Modalize ref={modalizeRef}>
-        <View style={{padding: 5}}>
-          <View>
-            <Text style={{fontWeight: 'bold'}}>Controller Name</Text>
-            <TextInput style={{backgroundColor: 'gray', borderRadius: 10}} />
-          </View>
-        </View>
-      </Modalize>
+      <SafeAreaView style={{flex: 1}}>
+        <Portal>
+          <Modalize ref={modalizeRef}>
+            <FormControllerProfile
+              onSubmit={val => handleSubmit(val)}
+              defaultValue={formData}
+            />
+          </Modalize>
+        </Portal>
+      </SafeAreaView>
     </>
   );
 }
