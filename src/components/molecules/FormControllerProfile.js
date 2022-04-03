@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {colors} from '../../constants';
-import {Button, InputText, PickerColor} from '../atoms';
+import {Button, InputText, PickerColor, PickerIcon} from '../atoms';
 
 const init_data = {
   id: '',
@@ -73,10 +73,10 @@ const FormControllerProfile = forwardRef((props, ref) => {
         title="Background Color"
         onSubmit={val => setData({...data, background_color: val})}
       />
-      <InputText
+      <PickerIcon
         required={null}
         title="Icon Name"
-        onChangeText={val => setData({...data, icon_name: val})}
+        onSubmit={val => setData({...data, icon_name: val})}
         value={data.icon_name}
       />
       <PickerColor
