@@ -6,4 +6,8 @@ export const colors = {
   darkGrey: '#999999',
   black: 'black',
   red: '#fa8989',
+  success: '#1fff31',
+  danger: '#fa8989',
+  info: '#fa8989',
+  default: '#fa8989',
 };

@@ -1,5 +1,6 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import {View} from 'react-native';
+import {colors} from '../../constants';
 import {Button, InputText, PickerColor} from '../atoms';
 
 const init_data = {
@@ -9,7 +10,7 @@ const init_data = {
   code: '',
   background_color: '',
   icon_name: '',
-  icon_color: 'black',
+  icon_color: '',
 };
 
 const err_data = {
@@ -83,7 +84,11 @@ const FormControllerProfile = forwardRef((props, ref) => {
         title="Icon Color"
         onSubmit={val => setData({...data, icon_color: val})}
       />
-      <Button title="Save" onPress={() => handleSubmit()} />
+      <Button
+        title="Save"
+        onPress={() => handleSubmit()}
+        color={colors.success}
+      />
     </View>
   );
 });

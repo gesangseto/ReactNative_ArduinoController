@@ -1,9 +1,11 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {Modalize} from 'react-native-modalize';
 import {Portal} from 'react-native-portalize';
-import InputText from './InputText';
 import {HueSaturationValuePicker} from 'react-native-reanimated-color-picker';
+import {colors} from '../../constants';
+import Button from './Button';
+import InputText from './InputText';
 
 const wheelStyle = {width: '100%'};
 const sliderStyle = {height: 50, width: '100%'};
@@ -56,30 +58,36 @@ const PickerColor = forwardRef((props, ref) => {
       <Portal>
         <Modalize ref={modalizeRef}>
           <View style={{flex: 1, height: 500}}>
-            <Text>Test</Text>
+            <View
+              style={{
+                marginTop: 15,
+                padding: 10,
+                width: 150,
+                marginHorizontal: 15,
+                borderRadius: 5,
+                justifyContent: 'center',
+                alignContent: 'center',
+                backgroundColor: colorData,
+              }}>
+              <Text style={{textAlign: 'center'}}>{colorData}</Text>
+            </View>
 
             <HueSaturationValuePicker
               wheelStyle={wheelStyle}
               sliderStyle={sliderStyle}
               onColorChangeComplete={colorChanged}
+              onColorChange={colorChanged}
               initialHue={0}
               initialSaturation={0}
               initialValue={0.7}
             />
           </View>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              backgroundColor: 'red',
-              width: 60,
-              height: 30,
-              justifyContent: 'center',
-              alignSelf: 'center',
-              borderRadius: 5,
-            }}
-            onPress={() => handleSubmit()}>
-            <Text style={{textAlign: 'center'}}>Save</Text>
-          </TouchableOpacity>
+
+          <Button
+            title="Save"
+            onPress={() => handleSubmit()}
+            color={colors.success}
+          />
         </Modalize>
       </Portal>
     </>
