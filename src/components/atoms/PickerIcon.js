@@ -77,6 +77,7 @@ const PickerIcon = forwardRef((props, ref) => {
             onChangeText={text => generateListIcon(text)}
           />
           <FlatGrid
+          onEndReached={()=>generateListIcon()}
             itemDimension={60}
             data={list}
             style={styles.gridView}
