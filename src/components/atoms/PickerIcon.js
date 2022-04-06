@@ -5,7 +5,7 @@ import {Portal} from 'react-native-portalize';
 import {FlatGrid} from 'react-native-super-grid';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors, listIcons} from '../../constants';
-import InputText from './InputText';
+import InputTextPressable from './InputText';
 
 const wheelStyle = {width: '100%'};
 const sliderStyle = {height: 50, width: '100%'};
@@ -63,7 +63,7 @@ const PickerIcon = forwardRef((props, ref) => {
   };
   return (
     <>
-      <InputText
+      <InputTextPressable
         onPressIn={() => modalizeRef.current?.open()}
         required={required}
         title={title}
@@ -77,7 +77,7 @@ const PickerIcon = forwardRef((props, ref) => {
             onChangeText={text => generateListIcon(text)}
           />
           <FlatGrid
-          onEndReached={()=>generateListIcon()}
+            onEndReached={() => generateListIcon()}
             itemDimension={60}
             data={list}
             style={styles.gridView}
