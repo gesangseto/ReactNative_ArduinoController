@@ -18,11 +18,11 @@ import { Host } from 'react-native-portalize';
  
  const App = () => {
    return (
+      <Host>
          <NavigationContainer ref={navigationRef}>
-           <Host>
             <Router />
-           </Host>
          </NavigationContainer>
+      </Host>
    );
  };
  export default App;

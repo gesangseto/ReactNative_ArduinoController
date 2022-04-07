@@ -5,7 +5,8 @@ import {Portal} from 'react-native-portalize';
 import {FlatGrid} from 'react-native-super-grid';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors, listIcons} from '../../constants';
-import InputTextPressable from './InputText';
+import InputText from './InputText';
+import InputTextPressable from './InputTextPressable';
 
 const wheelStyle = {width: '100%'};
 const sliderStyle = {height: 50, width: '100%'};

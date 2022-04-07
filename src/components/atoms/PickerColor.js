@@ -5,10 +5,10 @@ import {Portal} from 'react-native-portalize';
 import {HueSaturationValuePicker} from 'react-native-reanimated-color-picker';
 import {colors} from '../../constants';
 import Button from './Button';
-import InputText from './InputText';
+import InputTextPressable from './InputTextPressable';
 
-const wheelStyle = {width: '100%'};
-const sliderStyle = {height: 50, width: '100%'};
+const wheelStyle = {width: '90%'};
+const sliderStyle = {height: 45, width: '90%'};
 
 const PickerColor = forwardRef((props, ref) => {
   const {title, required, value, onSubmit, onColorSelected} = props;
@@ -47,17 +47,16 @@ const PickerColor = forwardRef((props, ref) => {
 
   return (
     <>
-      <InputText
+      <InputTextPressable
         onPressIn={() => modalizeRef.current?.open()}
         required={required}
         title={title}
-        bgColor={colorData}
         selectTextOnFocus={false}
         editable={false}
       />
       <Portal>
         <Modalize ref={modalizeRef}>
-          <View style={{flex: 1, height: 500}}>
+          <View style={{flex: 1, height: 440, alignItems: 'center'}}>
             <View
               style={{
                 marginTop: 15,
@@ -81,13 +80,14 @@ const PickerColor = forwardRef((props, ref) => {
               initialSaturation={0}
               initialValue={0.7}
             />
+            <View style={{marginVertical: 5}}>
+              <Button
+                title="Save"
+                onPress={() => handleSubmit()}
+                color={colors.success}
+              />
+            </View>
           </View>
-
-          <Button
-            title="Save"
-            onPress={() => handleSubmit()}
-            color={colors.success}
-          />
         </Modalize>
       </Portal>
     </>
