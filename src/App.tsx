@@ -8,21 +8,21 @@
  * @format
  */
 
- import {NavigationContainer} from '@react-navigation/native';
- import React from 'react';
- import {navigationRef} from './helper';
- import Router from './router';
+import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
+import { PortalProvider } from 'react-native-portal';
+import { navigationRef } from './helper';
+import Router from './router';
 
-import { Host } from 'react-native-portalize';
  
  
  const App = () => {
    return (
-      <Host>
+      <PortalProvider>
          <NavigationContainer ref={navigationRef}>
             <Router />
          </NavigationContainer>
-      </Host>
+      </PortalProvider>
    );
  };
  export default App;

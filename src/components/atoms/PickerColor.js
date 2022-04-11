@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import {Text, View} from 'react-native';
 import {Modalize} from 'react-native-modalize';
-import {Portal} from 'react-native-portalize';
+import {WhitePortal} from 'react-native-portal';
 import {HueSaturationValuePicker} from 'react-native-reanimated-color-picker';
 import {colors} from '../../constants';
 import Button from './Button';
@@ -53,10 +53,12 @@ const PickerColor = forwardRef((props, ref) => {
         title={title}
         selectTextOnFocus={false}
         editable={false}
+        bgColor={colorData}
+        value={colorData}
       />
-      <Portal>
+      <WhitePortal name="PickerColor">
         <Modalize ref={modalizeRef}>
-          <View style={{flex: 1, height: 440, alignItems: 'center'}}>
+          <View style={{alignItems: 'center'}}>
             <View
               style={{
                 marginTop: 15,
@@ -89,7 +91,7 @@ const PickerColor = forwardRef((props, ref) => {
             </View>
           </View>
         </Modalize>
-      </Portal>
+      </WhitePortal>
     </>
   );
 });

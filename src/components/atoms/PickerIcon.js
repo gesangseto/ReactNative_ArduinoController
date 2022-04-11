@@ -1,20 +1,17 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {LogBox, StyleSheet, TouchableOpacity} from 'react-native';
 import {Modalize} from 'react-native-modalize';
-import {Portal} from 'react-native-portalize';
+import {WhitePortal} from 'react-native-portal';
 import {FlatGrid} from 'react-native-super-grid';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {colors, listIcons} from '../../constants';
-import InputText from './InputText';
 import InputTextPressable from './InputTextPressable';
-
-const wheelStyle = {width: '100%'};
-const sliderStyle = {height: 50, width: '100%'};
 
 const PickerIcon = forwardRef((props, ref) => {
   const {title, required, value, onSubmit} = props;
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
+  const load = 60;
   const modalizeRef = useRef(null);
 
   useEffect(() => {
@@ -22,10 +19,12 @@ const PickerIcon = forwardRef((props, ref) => {
   }, [value]);
 
   useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     generateListIcon();
   }, []);
 
   const handleClickBoxItem = item => {
+    setList([]);
     setData(item);
     modalizeRef.current?.close();
     if (onSubmit) {
@@ -33,29 +32,25 @@ const PickerIcon = forwardRef((props, ref) => {
     }
   };
 
-  const generateListIcon = text => {
+  const generateListIcon = () => {
+    console.log('Generating');
+    let cur_len = list.length;
     let arr = [];
-    if (text) {
-      arr = listIcons.filter(name => name.includes(text.toLowerCase()));
-      arr = arr.slice(0, 60);
-    } else {
-      arr = listIcons.slice(0, 60);
-    }
-    setList([...arr]);
+    arr = listIcons.slice(cur_len, load + cur_len);
+    setList([...list, ...arr]);
   };
 
   const renderBoxItem = item => {
     return (
       <TouchableOpacity
         onPress={() => handleClickBoxItem(item)}
-        onLongPress={() => handleLongPressBoxItem(item)}
         style={{
           justifyContent: 'center',
           alignContent: 'center',
           alignItems: 'center',
           borderRadius: 5,
           padding: 10,
-          height: 60,
+          height: 80,
           backgroundColor: colors.darkGrey,
         }}>
         <MatComIcon name={item} size={40} />
@@ -70,23 +65,21 @@ const PickerIcon = forwardRef((props, ref) => {
         title={title}
         selectTextOnFocus={false}
         editable={false}
+        icon={data}
+        value={data}
       />
-      <Portal>
+      <WhitePortal name="PickerIcon">
         <Modalize ref={modalizeRef}>
-          <InputText
-            title={'Search...'}
-            onChangeText={text => generateListIcon(text)}
-          />
           <FlatGrid
             onEndReached={() => generateListIcon()}
-            itemDimension={60}
+            itemDimension={80}
             data={list}
             style={styles.gridView}
             spacing={5}
             renderItem={({item}) => renderBoxItem(item)}
           />
         </Modalize>
-      </Portal>
+      </WhitePortal>
     </>
   );
 });

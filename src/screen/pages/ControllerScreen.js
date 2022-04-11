@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Modalize} from 'react-native-modalize';
-import {Portal} from 'react-native-portalize';
+// import {Portal} from 'react-native-portalize';
+import {WhitePortal} from 'react-native-portal';
 import {FlatGrid} from 'react-native-super-grid';
 import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {FormControllerProfile} from '../../components';
 import {colors} from '../../constants';
-import * as RootNavigation from '../../helper';
 import {
   getController,
   getDBConnection,
@@ -98,16 +98,14 @@ export default function Example() {
         spacing={10}
         renderItem={({item}) => renderBoxItem(item)}
       />
-      <SafeAreaView style={{flex: 1}}>
-        <Portal>
-          <Modalize ref={modalizeRef}>
-            <FormControllerProfile
-              onSubmit={val => handleSubmit(val)}
-              defaultValue={formData}
-            />
-          </Modalize>
-        </Portal>
-      </SafeAreaView>
+      <WhitePortal name="FormController">
+        <Modalize ref={modalizeRef}>
+          <FormControllerProfile
+            onSubmit={val => handleSubmit(val)}
+            defaultValue={formData}
+          />
+        </Modalize>
+      </WhitePortal>
     </>
   );
 }
