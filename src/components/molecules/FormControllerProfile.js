@@ -17,7 +17,7 @@ const err_data = {
   controller_name: null,
 };
 const FormControllerProfile = forwardRef((props, ref) => {
-  const {onSubmit, defaultValue} = props;
+  const {onSubmit, onDelete, defaultValue} = props;
   const [isSubmit, setIsSubmit] = useState(false);
   const [data, setData] = useState(JSON.parse(JSON.stringify(init_data)));
   const [errData, setErrData] = useState(JSON.parse(JSON.stringify(err_data)));
@@ -53,6 +53,11 @@ const FormControllerProfile = forwardRef((props, ref) => {
       }
     }
   };
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(data);
+    }
+  };
 
   return (
     <View>
@@ -84,11 +89,30 @@ const FormControllerProfile = forwardRef((props, ref) => {
         title="Icon Color"
         onSubmit={val => setData({...data, icon_color: val})}
       />
-      <Button
-        title="Save"
-        onPress={() => handleSubmit()}
-        color={colors.success}
-      />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: 15,
+          alignContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+        }}>
+        <Button
+          title="Save"
+          onPress={() => handleSubmit()}
+          color={colors.success}
+          margin={15}
+        />
+        {data.id ? (
+          <Button
+            title="Delete"
+            onPress={() => handleDelete()}
+            color={colors.danger}
+            margin={15}
+          />
+        ) : null}
+      </View>
     </View>
   );
 });

@@ -76,3 +76,13 @@ export const updateControllerLayout = async (db, data) => {
   const results = await db.executeSql(query);
   return results;
 };
+
+export const deleteControllerLayout = async (db, data) => {
+  let query = generateQueryUpdate({
+    table: tableName,
+    structure: structure,
+    values: data,
+  });
+  const results = await db.executeSql(query);
+  return results;
+};

@@ -49,3 +49,12 @@ export const generateQueryUpdate = ({table, structure, values}) => {
   console.log(query);
   return query;
 };
+
+export const generateQueryDelete = ({table, structure, values}) => {
+  let val = '';
+  let query = `DELETE FROM ${table}`;
+  val = ` WHERE id='${values.id}'`;
+  query += ` ${val} `;
+  console.log(query);
+  return query;
+};

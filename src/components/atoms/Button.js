@@ -3,11 +3,13 @@ import {Text, TouchableOpacity} from 'react-native';
 import {colors} from '../../constants';
 
 const Button = React.forwardRef((props, ref) => {
-  const {title, required, color} = props;
+  const {title, required, margin, padding, color} = props;
   return (
     <TouchableOpacity
       style={{
         backgroundColor: color ?? colors.red,
+        margin: margin ?? 0,
+        padding: padding ?? 0,
         height: 35,
         width: 75,
         borderRadius: 5,

@@ -8,6 +8,7 @@ import MatComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {FormControllerProfile} from '../../components';
 import {colors} from '../../constants';
 import {
+  deleteController,
   getController,
   getDBConnection,
   insertController,
@@ -49,6 +50,16 @@ export default function Example() {
     } else {
       await insertController(db, val);
       // RootNavigation.navigate('ControllerLayout', val);
+    }
+    await getDataController();
+    return;
+  };
+
+  const handleDelete = async val => {
+    modalizeRef.current?.close();
+    const db = await getDBConnection();
+    if (val.id) {
+      await deleteController(db, val);
     }
     await getDataController();
     return;
@@ -102,6 +113,7 @@ export default function Example() {
         <Modalize ref={modalizeRef}>
           <FormControllerProfile
             onSubmit={val => handleSubmit(val)}
+            onDelete={val => handleDelete(val)}
             defaultValue={formData}
           />
         </Modalize>
@@ -110,20 +122,6 @@ export default function Example() {
   );
 }
 
-const stylesContainer = props =>
-  StyleSheet.create({
-    gridView: {
-      marginTop: 10,
-      flex: 1,
-    },
-    itemContainer: {
-      justifyContent: 'flex-start',
-      borderRadius: 5,
-      padding: 10,
-      height: 150,
-      backgroundColor: 'red',
-    },
-  });
 const styles = StyleSheet.create({
   gridView: {
     marginTop: 10,
